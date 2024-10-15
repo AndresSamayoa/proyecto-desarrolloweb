@@ -1,0 +1,25 @@
+<?php
+$nombre = $form->get('nombre');
+$nombre->setAttribute('class', 'form-control');
+$nombre->setAttribute('placeholder', 'Nombre');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+ 
+$form->setAttribute('action', $this->url('cursos', ['action' => 'create']));
+$form->prepare();
+ 
+echo $this->form()->openTag($form);
+?>
+ 
+<div class="form-group">
+   <?= $this->formLabel($nombre) ?>
+   <?= $this->formElement($nombre) ?>
+   <?= $this->formElementErrors()->render($nombre, ['class' => 'help-block text-danger']) ?>
+</div>
+ 
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id'));
+echo $this->form()->closeTag();
+?>

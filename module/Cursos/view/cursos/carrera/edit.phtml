@@ -1,0 +1,31 @@
+<?php
+   $title = 'Editar carrera';
+   $this->headTitle($title);
+?>
+<h4 class="d-flex justify-content-between align-items-center mb-3 mt-3">
+   <span class="text-muted"><?=$title?></span>
+</h4>
+
+<?php
+$nombre = $form->get('nombre');
+$nombre->setAttribute('class', 'form-control');
+$nombre->setAttribute('placeholder', 'Nombres');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+
+$form->setAttribute('action', $this->url('carreras', ['action' => 'edit', 'id' => $id]));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+   <div class="form-group">
+       <?= $this->formLabel($nombre) ?>
+       <?= $this->formElement($nombre) ?>
+       <?= $this->formElementErrors()->render($nombre, ['class' => 'help-block text-danger']) ?>
+   </div>
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id'));
+echo $this->form()->closeTag();
+?>

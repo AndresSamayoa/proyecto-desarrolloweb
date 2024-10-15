@@ -1,0 +1,38 @@
+<h4 class="d-flex justify-content-between align-items-center mb-3 mt-3">
+   <span class="text-muted">Todas las carreras</span>
+   <a class="btn btn-sm btn-info" href="<?= $this->url('carreras', ['action' => 'create'])?>">Crear</a>
+</h4>
+<table class="table table-hover">
+   <thead>
+   <tr>
+       <th>Id</th>
+       <th>Nombres</th>
+       <th>Acciones</th>
+   </tr>
+   </thead>
+   <?php foreach ($this->carreras as $carrera) : ?>
+
+       <tr>
+           <td><?= $this->escapeHtml($carrera->id) ?></td>
+           <td><?= $this->escapeHtml($carrera->nombre) ?></td>
+           <td>
+                <a class="btn btn-info btn-sm p-1" href="<?= $this->url('carreras', [
+                    'action' => 'edit',
+                    'id' => $carrera->id
+                    ]) ?>"
+                >
+                    Editar
+                </a>
+           <td>
+                <a class="btn btn-danger btn-sm p-1" href="<?= $this->url('carreras', [
+                    'action' => 'delete',
+                    'id' => $carrera->id
+                    ]) ?>"
+                    onclick="return confirm('Seguro que quiere eliminar?')"
+                >
+                    Eliminar
+                </a>
+            </td>
+       </tr>
+   <?php endforeach; ?>
+</table>

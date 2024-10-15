@@ -1,0 +1,58 @@
+<?= $this->doctype() ?>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <?= $this->headTitle('Usuarios')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+   <?= $this->headMeta()
+       ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+       ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+   ?>
+
+   <!-- Le styles -->
+   <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
+       ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+       ->prependStylesheet($this->basePath('css/dashboard.css'))
+   ?>
+
+   <!-- Scripts -->
+   <?= $this->headScript() ?>
+</head>
+<body>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+   <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Cursos</a>
+   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
+           data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+   </button>
+</nav>
+<div class="container-fluid">
+   <div class="row">
+       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+           <div class="sidebar-sticky pt-3">
+               <ul class="nav flex-column">
+                   <li class="nav-item">
+                       <a class="nav-link active" href="<?=$this->url('carreras', ['action'=> 'index'])?>">
+                           <span data-feather="home"></span>
+                           Carreras
+                       </a>
+                   </li>
+                   <li class="nav-item">
+                       <a class="nav-link active" href="<?=$this->url('cursos', ['action'=> 'index'])?>">
+                           <span data-feather="home"></span>
+                           Cursos
+                       </a>
+                   </li>
+               </ul>
+           </div>
+       </nav>
+       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+           <?= $this->content ?>
+       </main>
+   </div>
+</div>
+<?= $this->inlineScript()
+   ->prependFile($this->basePath('js/bootstrap.min.js'))
+   ->prependFile($this->basePath('js/jquery-3.5.1.min.js')) ?>
+</body>
+</html>
