@@ -4,6 +4,8 @@ namespace Cursos;
 
 use Cursos\Controller\CursoController;
 use Cursos\Controller\CarreraController;
+use Cursos\Controller\SemestreController;
+use Cursos\Controller\SeccionController;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
@@ -38,7 +40,35 @@ return [
                        'action' => 'index'
                    ],
                ]
-           ]
+            ],
+           'semestres' => [
+               'type' => Segment::class,
+               'options' => [
+                   'route' => '/semestres[/:action[/:id]]',
+                   'constraints' => [
+                       'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                       'id' => '[1-9]\d*',
+                   ],
+                   'defaults' => [
+                       'controller' => SemestreController::class,
+                       'action' => 'index'
+                   ],
+               ]
+            ],
+           'secciones' => [
+               'type' => Segment::class,
+               'options' => [
+                   'route' => '/secciones[/:action[/:id]]',
+                   'constraints' => [
+                       'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                       'id' => '[1-9]\d*',
+                   ],
+                   'defaults' => [
+                       'controller' => SeccionController::class,
+                       'action' => 'index'
+                   ],
+               ]
+            ],
        ]
    ],
    'view_manager' => [

@@ -1,0 +1,38 @@
+<h4 class="d-flex justify-content-between align-items-center mb-3 mt-3">
+   <span class="text-muted">Todos las secciones</span>
+   <a class="btn btn-sm btn-info" href="<?= $this->url('secciones', ['action' => 'create'])?>">Crear</a>
+</h4>
+<table class="table table-hover">
+   <thead>
+   <tr>
+       <th>Id</th>
+       <th>Nombres</th>
+       <th>Acciones</th>
+   </tr>
+   </thead>
+   <?php foreach ($this->secciones as $seccion) : ?>
+
+       <tr>
+           <td><?= $this->escapeHtml($seccion->id) ?></td>
+           <td><?= $this->escapeHtml($seccion->nombre) ?></td>
+           <td>
+                <a class="btn btn-info btn-sm p-1" href="<?= $this->url('secciones', [
+                    'action' => 'edit',
+                    'id' => $seccion->id
+                    ]) ?>"
+                >
+                    Editar
+                </a>
+           <td>
+                <a class="btn btn-danger btn-sm p-1" href="<?= $this->url('secciones', [
+                    'action' => 'delete',
+                    'id' => $seccion->id
+                    ]) ?>"
+                    onclick="return confirm('Seguro que quiere eliminar?')"
+                >
+                    Eliminar
+                </a>
+            </td>
+       </tr>
+   <?php endforeach; ?>
+</table>

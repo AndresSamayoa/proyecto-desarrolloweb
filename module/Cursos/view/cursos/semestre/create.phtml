@@ -1,0 +1,35 @@
+<?php
+$fecha_inicio = $form->get('fecha_inicio');
+$fecha_inicio->setAttribute('class', 'form-control');
+$fecha_inicio->setAttribute('placeholder', 'Fecha inicio');
+
+$fecha_fin = $form->get('fecha_fin');
+$fecha_fin->setAttribute('class', 'form-control');
+$fecha_fin->setAttribute('placeholder', 'Fecha fin');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+ 
+$form->setAttribute('action', $this->url('semestres', ['action' => 'create']));
+$form->prepare();
+ 
+echo $this->form()->openTag($form);
+?>
+ 
+<div class="form-group">
+   <?= $this->formLabel($fecha_inicio) ?>
+   <?= $this->formElement($fecha_inicio) ?>
+   <?= $this->formElementErrors()->render($fecha_inicio, ['class' => 'help-block text-danger']) ?>
+</div>
+
+<div class="form-group">
+   <?= $this->formLabel($fecha_fin) ?>
+   <?= $this->formElement($fecha_fin) ?>
+   <?= $this->formElementErrors()->render($fecha_fin, ['class' => 'help-block text-danger']) ?>
+</div>
+ 
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id'));
+echo $this->form()->closeTag();
+?>
