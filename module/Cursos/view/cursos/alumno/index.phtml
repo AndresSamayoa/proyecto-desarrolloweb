@@ -1,0 +1,44 @@
+<h4 class="d-flex justify-content-between align-items-center mb-3 mt-3">
+   <span class="text-muted">Todas las alumnos</span>
+   <a class="btn btn-sm btn-info" href="<?= $this->url('alumnos', ['action' => 'create'])?>">Crear</a>
+</h4>
+<table class="table table-hover">
+   <thead>
+   <tr>
+       <th>Id</th>
+       <th>Nombres</th>
+       <th>Apellidos</th>
+       <th>Fecha nacimiento</th>
+       <th>Carrera</th>
+       <th>Acciones</th>
+   </tr>
+   </thead>
+   <?php foreach ($this->alumnos as $alumno) : ?>
+
+       <tr>
+           <td><?= $this->escapeHtml($alumno->id) ?></td>
+           <td><?= $this->escapeHtml($alumno->nombres) ?></td>
+           <td><?= $this->escapeHtml($alumno->apellidos) ?></td>
+           <td><?= $this->escapeHtml($alumno->fecha_nacimiento) ?></td>
+           <td><?= $this->escapeHtml($this->tablaCarrera->getCarreraName($alumno->carrera_id)) ?></td>
+           <td>
+                <a class="btn btn-info btn-sm p-1" href="<?= $this->url('alumnos', [
+                    'action' => 'edit',
+                    'id' => $alumno->id
+                    ]) ?>"
+                >
+                    Editar
+                </a>
+           <td>
+                <a class="btn btn-danger btn-sm p-1" href="<?= $this->url('alumnos', [
+                    'action' => 'delete',
+                    'id' => $alumno->id
+                    ]) ?>"
+                    onclick="return confirm('Seguro que quiere eliminar?')"
+                >
+                    Eliminar
+                </a>
+            </td>
+       </tr>
+   <?php endforeach; ?>
+</table>

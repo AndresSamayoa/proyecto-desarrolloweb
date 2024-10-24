@@ -1,0 +1,55 @@
+<?php
+$alumno_id = $form->get('alumno_id');
+$alumno_id->setAttribute('class', 'form-control');
+$alumno_id->setAttribute('placeholder', 'Alumno');
+
+$curso_id = $form->get('curso_id');
+$curso_id->setAttribute('class', 'form-control');
+$curso_id->setAttribute('placeholder', 'Curso');
+
+$semestre_id = $form->get('semestre_id');
+$semestre_id->setAttribute('class', 'form-control');
+$semestre_id->setAttribute('placeholder', 'Semestre');
+
+$nota = $form->get('nota');
+$nota->setAttribute('class', 'form-control');
+$nota->setAttribute('placeholder', '0');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+ 
+$form->setAttribute('action', $this->url('asignacionCursos', ['action' => 'create']));
+$form->prepare();
+ 
+echo $this->form()->openTag($form);
+?>
+ 
+<div class="form-group">
+   <?= $this->formLabel($alumno_id) ?>
+   <?= $this->formElement($alumno_id) ?>
+   <?= $this->formElementErrors()->render($alumno_id, ['class' => 'help-block text-danger']) ?>
+</div>
+
+<div class="form-group">
+   <?= $this->formLabel($curso_id) ?>
+   <?= $this->formElement($curso_id) ?>
+   <?= $this->formElementErrors()->render($curso_id, ['class' => 'help-block text-danger']) ?>
+</div>
+
+<div class="form-group">
+   <?= $this->formLabel($semestre_id) ?>
+   <?= $this->formElement($semestre_id) ?>
+   <?= $this->formElementErrors()->render($semestre_id, ['class' => 'help-block text-danger']) ?>
+</div>
+
+<div class="form-group">
+   <?= $this->formLabel($nota) ?>
+   <?= $this->formElement($nota) ?>
+   <?= $this->formElementErrors()->render($nota, ['class' => 'help-block text-danger']) ?>
+</div>
+
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id'));
+echo $this->form()->closeTag();
+?>

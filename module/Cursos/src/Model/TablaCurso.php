@@ -20,6 +20,18 @@ class TablaCurso
        return $this->tableGateway->select();
    }
 
+   public function fetchAllSelect()
+   {
+        $list = array();
+        $result = $this->tableGateway->select();
+
+        foreach ($result as $row) {
+            $list[$row->id] = $row->nombre;
+        }
+
+       return $list;
+   }
+
    public function getCurso($id)
    {
        $id = (int)$id;
@@ -33,6 +45,18 @@ class TablaCurso
        }
 
        return $row;
+   }
+
+   public function getCursoName($id)
+   {
+       $id = (int)$id;
+       $rowset = $this->tableGateway->select(['id' => $id]);
+       $row = $rowset->current();
+       if (!$row) {
+            return '';
+       }
+
+       return $row->nombre;
    }
 
    public function saveCurso (Curso $curso)
