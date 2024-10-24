@@ -5,7 +5,7 @@ namespace Cursos\Model;
 use Laminas\Db\TableGateway\TableGatewayInterface;
 use RuntimeException;
 
-class TablaCarrera
+class TablaAsignacionCursos
 {
     /** @var TableGatewayInterface */
    private $tableGateway;
@@ -20,19 +20,7 @@ class TablaCarrera
        return $this->tableGateway->select();
    }
 
-   public function fetchAllSelect()
-   {
-        $list = array();
-        $result = $this->tableGateway->select();
-
-        foreach ($result as $row) {
-            $list[$row->id] = $row->nombre;
-        }
-
-       return $list;
-   }
-
-   public function getCarrera($id)
+   public function getAsignacionCurso($id)
    {
        $id = (int)$id;
        $rowset = $this->tableGateway->select(['id' => $id]);
@@ -46,26 +34,17 @@ class TablaCarrera
 
        return $row;
    }
-   
-   public function getCarreraName($id)
-   {
-       $id = (int)$id;
-       $rowset = $this->tableGateway->select(['id' => $id]);
-       $row = $rowset->current();
-       if (!$row) {
-            return '';
-       }
 
-       return $row->nombre;
-   }
-
-   public function saveCarrera (Carrera $carrera)
+   public function saveAsignacionCurso (AsignacionCursos $asignacionCurso)
    {
     $data = [
-        'nombre' => $carrera->nombre,
+        'alumno_id' => $asignacionCurso->alumno_id,
+        'semestre_id' => $asignacionCurso->semestre_id,
+        'curso_id' => $asignacionCurso->curso_id,
+        'nota' => $asignacionCurso->nota,
     ];
  
-    $id = (int) $carrera->id;
+    $id = (int) $asignacionCurso->id;
  
     if ($id === 0 ) {
         $this->tableGateway->insert($data);
@@ -73,7 +52,7 @@ class TablaCarrera
     }
  
     try {
-        $this->getCarrera($id);
+        $this->getAsignacionCurso($id);
     } catch (\Exception $e){
         throw new RuntimeException(sprintf(
             'Cannot update task with identifier %d; does not exist',
@@ -84,7 +63,7 @@ class TablaCarrera
     $this->tableGateway->update($data, ['id'=>$id]);
    }
 
-   public function deleteCarrera($id)
+   public function deleteAsignacionCurso($id)
    {
        $id = (int)$id;
        $rowset = $this->tableGateway->delete(['id' => $id]);

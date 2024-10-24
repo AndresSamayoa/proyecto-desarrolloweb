@@ -1,0 +1,44 @@
+<h4 class="d-flex justify-content-between align-items-center mb-3 mt-3">
+   <span class="text-muted">Asignaciones de cursos</span>
+   <a class="btn btn-sm btn-info" href="<?= $this->url('asignacionCursos', ['action' => 'create'])?>">Crear</a>
+</h4>
+<table class="table table-hover">
+   <thead>
+   <tr>
+       <th>Id</th>
+       <th>Alumno</th>
+       <th>Curso</th>
+       <th>Semestre</th>
+       <th>Nota</th>
+       <th>Acciones</th>
+   </tr>
+   </thead>
+   <?php foreach ($this->asignacionCursos as $signacionCurso) : ?>
+
+       <tr>
+           <td><?= $this->escapeHtml($signacionCurso->id) ?></td>
+           <td><?= $this->escapeHtml($this->tableAlumno->getAlumnoNombre($signacionCurso->alumno_id)) ?></td>
+           <td><?= $this->escapeHtml($this->tableSemestre->getSemestreNombre($signacionCurso->semestre_id)) ?></td>
+           <td><?= $this->escapeHtml($this->tableCurso->getCursoName($signacionCurso->curso_id)) ?></td>
+           <td><?= $this->escapeHtml($signacionCurso->nota) ?></td>
+           <td>
+                <a class="btn btn-info btn-sm p-1" href="<?= $this->url('asignacionCursos', [
+                    'action' => 'edit',
+                    'id' => $signacionCurso->id
+                    ]) ?>"
+                >
+                    Editar
+                </a>
+           <td>
+                <a class="btn btn-danger btn-sm p-1" href="<?= $this->url('asignacionCursos', [
+                    'action' => 'delete',
+                    'id' => $signacionCurso->id
+                    ]) ?>"
+                    onclick="return confirm('Seguro que quiere eliminar?')"
+                >
+                    Eliminar
+                </a>
+            </td>
+       </tr>
+   <?php endforeach; ?>
+</table>

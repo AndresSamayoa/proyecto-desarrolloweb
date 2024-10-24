@@ -5,7 +5,7 @@ namespace Cursos\Model;
 use Laminas\Db\TableGateway\TableGatewayInterface;
 use RuntimeException;
 
-class TablaCarrera
+class TablaAlumno
 {
     /** @var TableGatewayInterface */
    private $tableGateway;
@@ -26,13 +26,13 @@ class TablaCarrera
         $result = $this->tableGateway->select();
 
         foreach ($result as $row) {
-            $list[$row->id] = $row->nombre;
+            $list[$row->id] = $row->nombres . ' ' . $row->apellidos;
         }
 
        return $list;
    }
 
-   public function getCarrera($id)
+   public function getAlumno($id)
    {
        $id = (int)$id;
        $rowset = $this->tableGateway->select(['id' => $id]);
@@ -46,8 +46,8 @@ class TablaCarrera
 
        return $row;
    }
-   
-   public function getCarreraName($id)
+
+   public function getAlumnoNombre($id)
    {
        $id = (int)$id;
        $rowset = $this->tableGateway->select(['id' => $id]);
@@ -56,16 +56,20 @@ class TablaCarrera
             return '';
        }
 
-       return $row->nombre;
+       return $row->nombres . ' ' . $row->apellidos;
    }
 
-   public function saveCarrera (Carrera $carrera)
+   public function saveAlumno (Alumno $alumno)
    {
     $data = [
-        'nombre' => $carrera->nombre,
+        'nombres' => $alumno->nombres,
+        'apellidos' => $alumno->apellidos,
+        'fecha_nacimiento' => $alumno->fecha_nacimiento,
+        'foto' => $alumno->foto,
+        'carrera_id' => $alumno->carrera_id,
     ];
  
-    $id = (int) $carrera->id;
+    $id = (int) $alumno->id;
  
     if ($id === 0 ) {
         $this->tableGateway->insert($data);
@@ -73,7 +77,7 @@ class TablaCarrera
     }
  
     try {
-        $this->getCarrera($id);
+        $this->getAlumno($id);
     } catch (\Exception $e){
         throw new RuntimeException(sprintf(
             'Cannot update task with identifier %d; does not exist',
@@ -84,7 +88,7 @@ class TablaCarrera
     $this->tableGateway->update($data, ['id'=>$id]);
    }
 
-   public function deleteCarrera($id)
+   public function deleteAlumno($id)
    {
        $id = (int)$id;
        $rowset = $this->tableGateway->delete(['id' => $id]);

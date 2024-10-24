@@ -13,6 +13,10 @@ use Cursos\Model\Semestre;
 use Cursos\Model\TablaSemestre;
 use Cursos\Model\Seccion;
 use Cursos\Model\TablaSeccion;
+use Cursos\Model\Alumno;
+use Cursos\Model\TablaAlumno;
+use Cursos\Model\AsignacionCursos;
+use Cursos\Model\TablaAsignacionCursos;
 
 
 class Module
@@ -66,6 +70,26 @@ class Module
                     $tableGateWay = $sm->get('SeccionTableGateway');
                     return new TablaSeccion($tableGateWay);
                 },
+                'AlumnoTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get(AdapterInterface::class);
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Alumno());
+                    return new TableGateway('alumnos', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Cursos\Model\TablaAlumno' => function ($sm) {
+                    $tableGateWay = $sm->get('AlumnoTableGateway');
+                    return new TablaAlumno($tableGateWay);
+                },
+                'AsignacionCursoTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get(AdapterInterface::class);
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new AsignacionCursos());
+                    return new TableGateway('cursos_asignados', $dbAdapter, null, $resultSetPrototype);
+                },
+                'Cursos\Model\TablaAsignacionCursos' => function ($sm) {
+                    $tableGateWay = $sm->get('AsignacionCursoTableGateway');
+                    return new TablaAsignacionCursos($tableGateWay);
+                },
             ]
         ];
     }
@@ -92,6 +116,20 @@ class Module
                 Controller\SeccionController::class => function ($container) {
                     return new Controller\SeccionController(
                         $container->get(Model\TablaSeccion::class)
+                    );
+                },
+                Controller\AlumnoController::class => function ($container) {
+                    return new Controller\AlumnoController(
+                        $container->get(Model\TablaAlumno::class),
+                        $container->get(Model\TablaCarrera::class)
+                    );
+                },
+                Controller\AsignacionCursosController::class => function ($container) {
+                    return new Controller\AsignacionCursosController(
+                        $container->get(Model\TablaAsignacionCursos::class),
+                        $container->get(Model\TablaAlumno::class),
+                        $container->get(Model\TablaSemestre::class),
+                        $container->get(Model\TablaCurso::class)
                     );
                 },
             ]

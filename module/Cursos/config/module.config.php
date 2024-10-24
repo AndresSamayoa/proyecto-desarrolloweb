@@ -6,6 +6,8 @@ use Cursos\Controller\CursoController;
 use Cursos\Controller\CarreraController;
 use Cursos\Controller\SemestreController;
 use Cursos\Controller\SeccionController;
+use Cursos\Controller\AlumnoController;
+use Cursos\Controller\AsignacionCursosController;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
@@ -65,6 +67,34 @@ return [
                    ],
                    'defaults' => [
                        'controller' => SeccionController::class,
+                       'action' => 'index'
+                   ],
+               ]
+            ],
+           'alumnos' => [
+               'type' => Segment::class,
+               'options' => [
+                   'route' => '/alumnos[/:action[/:id]]',
+                   'constraints' => [
+                       'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                       'id' => '[1-9]\d*',
+                   ],
+                   'defaults' => [
+                       'controller' => AlumnoController::class,
+                       'action' => 'index'
+                   ],
+               ]
+            ],
+           'asignacionCursos' => [
+               'type' => Segment::class,
+               'options' => [
+                   'route' => '/asignacionCursos[/:action[/:id]]',
+                   'constraints' => [
+                       'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                       'id' => '[1-9]\d*',
+                   ],
+                   'defaults' => [
+                       'controller' => AsignacionCursosController::class,
                        'action' => 'index'
                    ],
                ]

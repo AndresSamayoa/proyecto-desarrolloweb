@@ -20,6 +20,18 @@ class TablaSemestre
        return $this->tableGateway->select();
    }
 
+   public function fetchAllSelect()
+   {
+        $list = array();
+        $result = $this->tableGateway->select();
+
+        foreach ($result as $row) {
+            $list[$row->id] = 'Desde ' . $row->fecha_inicio . ' hasta ' . $row->fecha_fin;
+        }
+
+       return $list;
+   }
+
    public function getSemestre($id)
    {
        $id = (int)$id;
@@ -33,6 +45,18 @@ class TablaSemestre
        }
 
        return $row;
+   }
+
+   public function getSemestreNombre($id)
+   {
+       $id = (int)$id;
+       $rowset = $this->tableGateway->select(['id' => $id]);
+       $row = $rowset->current();
+       if (!$row) {
+           return '';
+       }
+
+       return 'Desde ' . $row->fecha_inicio . ' hasta ' . $row->fecha_fin;
    }
 
    public function saveSemestre (Semestre $semestre)
