@@ -35,6 +35,12 @@ class TablaAsignacionCursos
        return $row;
    }
 
+   public function getAsignacionesCursoAlumno($alumId)
+   {
+       $id = (int)$alumId;
+       return $this->tableGateway->select(['alumno_id' => $id]);
+   }
+
    public function saveAsignacionCurso (AsignacionCursos $asignacionCurso)
    {
     $data = [

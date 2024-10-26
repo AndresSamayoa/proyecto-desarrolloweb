@@ -31,6 +31,13 @@ class TablaAlumno
 
        return $list;
    }
+   
+   public function getFromCarrera($id)
+   {
+        $result = $this->tableGateway->select(['carrera_id' => $id]);
+
+       return $result;
+   }
 
    public function getAlumno($id)
    {
