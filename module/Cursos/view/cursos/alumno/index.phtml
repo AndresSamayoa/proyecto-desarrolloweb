@@ -29,7 +29,6 @@
                 >
                     Editar
                 </a>
-           <td>
                 <a class="btn btn-danger btn-sm p-1" href="<?= $this->url('alumnos', [
                     'action' => 'delete',
                     'id' => $alumno->id
@@ -37,6 +36,13 @@
                     onclick="return confirm('Seguro que quiere eliminar?')"
                 >
                     Eliminar
+                </a>
+                <a class="btn btn-primary btn-sm p-1" href="<?= $this->url('alumnos', [
+                    'action' => 'reporte',
+                    'id' => $alumno->id
+                    ]) ?>"
+                >
+                    Reporte
                 </a>
             </td>
        </tr>

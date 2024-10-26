@@ -105,7 +105,8 @@ class Module
                 },
                 Controller\CarreraController::class => function ($container) {
                     return new Controller\CarreraController(
-                        $container->get(Model\TablaCarrera::class)
+                        $container->get(Model\TablaCarrera::class),
+                        $container->get(Model\TablaAlumno::class)
                     );
                 },
                 Controller\SemestreController::class => function ($container) {
@@ -121,7 +122,10 @@ class Module
                 Controller\AlumnoController::class => function ($container) {
                     return new Controller\AlumnoController(
                         $container->get(Model\TablaAlumno::class),
-                        $container->get(Model\TablaCarrera::class)
+                        $container->get(Model\TablaCarrera::class),
+                        $container->get(Model\TablaAsignacionCursos::class),
+                        $container->get(Model\TablaSemestre::class),
+                        $container->get(Model\TablaCurso::class)
                     );
                 },
                 Controller\AsignacionCursosController::class => function ($container) {

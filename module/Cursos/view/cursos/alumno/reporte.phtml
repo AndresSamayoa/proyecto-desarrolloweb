@@ -1,0 +1,75 @@
+<?php
+//creacion del buffer 
+ob_start();
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de estudiante</title>
+    <?= $this->headTitle('Usuarios')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+   <?= $this->headMeta()
+       ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+       ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+   ?>
+
+   <!-- Le styles -->
+   <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
+       ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+       ->prependStylesheet($this->basePath('css/dashboard.css'))
+   ?>
+
+   <!-- Scripts -->
+   <?= $this->headScript() ?>
+    
+</head>
+<body>
+<h1>Reporte de estudiante 
+    <?= $this->escapeHtml($alumno->nombres) ?>
+    <?= $this->escapeHtml($alumno->apellidos) ?>
+</h1>
+<h2>
+    Carrera: 
+    <?= $this->escapeHtml($this->tablaCarrera->getCarreraName($alumno->carrera_id)) ?>
+<h2>
+<table class="table table-hover">
+   <thead>
+   <tr>
+       <th>Curso</th>
+       <th>Semestre</th>
+       <th>Nota</th>
+       <th>Aprobado</th>
+   </tr>
+   </thead>
+<?php foreach ($this->asignaciones as $asignacion) : ?>
+
+    <tr>
+        <td><?= $this->escapeHtml($asignacion['curso']) ?></td>
+        <td><?= $this->escapeHtml($asignacion['semestre']) ?></td>
+        <td><?= $this->escapeHtml($asignacion['nota']) ?> pts</td>
+        <td><?= $this->escapeHtml($asignacion['aprobado']) ?></td>
+
+<?php endforeach; ?>
+</table>
+  
+</body>
+</html>
+
+<?php
+
+echo(ob_get_clean());
+
+use Dompdf\Dompdf;
+
+$dompdf = new Dompdf();
+$dompdf->loadHtml(ob_get_clean());
+$dompdf->setPaper('A4', 'portrait');
+$dompdf->render();
+$dompdf->stream("Reporte estudiantes.pdf", array("Attachment" => false));
+
+exit(0);
+?>

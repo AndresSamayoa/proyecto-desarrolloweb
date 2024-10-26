@@ -9,17 +9,46 @@ class AlumnoController extends \Laminas\Mvc\Controller\AbstractActionController
 {
     private $table;
     private $tableCarrera;
+    private $tableAsignacion;
+    private $tableSemestre;
+    private $tableCurso;
 
-    public function __construct($table, $tableCarrera)
+    public function __construct($table, $tableCarrera, $tableAsignacion, $tableSemestre, $tableCurso)
     {
         $this->table = $table;
         $this->tableCarrera = $tableCarrera;
+        $this->tableAsignacion = $tableAsignacion;
+        $this->tableSemestre = $tableSemestre;
+        $this->tableCurso = $tableCurso;
     }
 
    public function indexAction(): ViewModel
    {
         $alumnos = $this->table->fetchAll();
         return new ViewModel(['alumnos' => $alumnos, 'tablaCarrera' => $this->tableCarrera]);
+   }
+
+   public function reporteAction(): ViewModel
+   {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        $alumno = $this->table->getAlumno($id);
+        $listaAsig = array();
+
+        $asignaciones = $this->tableAsignacion->getAsignacionesCursoAlumno($alumno->id);
+        foreach ($asignaciones as $asignacion) {
+            array_push($listaAsig, [
+                'nota'=> $asignacion->nota,
+                'curso'=> $this->tableCurso->getCursoName($asignacion->curso_id),
+                'semestre'=> $this->tableSemestre->getSemestreNombre($asignacion->semestre_id),
+                'aprobado'=> $asignacion->nota >= 61 ? 'Si' : 'No'
+            ]);
+        }
+
+        return new ViewModel([
+            'alumno' => $alumno,
+            'asignaciones' => $listaAsig,
+            'tablaCarrera' => $this->tableCarrera
+        ]);
    }
 
     public function createAction()

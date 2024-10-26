@@ -1,0 +1,69 @@
+
+<?php
+//creacion del buffer 
+ob_start();
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudiantes por carrera</title>
+    <?= $this->headTitle('Usuarios')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+   <?= $this->headMeta()
+       ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+       ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+   ?>
+
+   <!-- Le styles -->
+   <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
+       ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+       ->prependStylesheet($this->basePath('css/dashboard.css'))
+   ?>
+
+   <!-- Scripts -->
+   <?= $this->headScript() ?>
+    
+</head>
+<body>
+<h1>Reporte de estudiantes</h1>
+<table class="table table-hover">
+   <thead>
+   <tr>
+       <th>Id</th>
+       <th>Nombres</th>
+       <th>Apellidos</th>
+       <th>Fecha nacimiento</th>
+   </tr>
+   </thead>
+<?php foreach ($this->alumnos as $alumno) : ?>
+
+    <tr>
+        <td><?= $this->escapeHtml($alumno->id) ?></td>
+        <td><?= $this->escapeHtml($alumno->nombres) ?></td>
+        <td><?= $this->escapeHtml($alumno->apellidos) ?></td>
+        <td><?= $this->escapeHtml($alumno->fecha_nacimiento) ?></td>
+
+<?php endforeach; ?>
+</table>
+  
+</body>
+</html>
+
+<?php
+
+//echo(ob_get_clean());
+
+use Dompdf\Dompdf;
+
+$dompdf = new Dompdf();
+$dompdf->loadHtml(ob_get_clean());
+$dompdf->setPaper('A4', 'portrait');
+$dompdf->render();
+$dompdf->stream("Reporte estudiantes por carrera.pdf", array("Attachment" => false));
+
+exit(0);
+?>

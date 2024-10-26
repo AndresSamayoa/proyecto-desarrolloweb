@@ -8,16 +8,29 @@ use Cursos\Form\CarreraForm;
 class CarreraController extends \Laminas\Mvc\Controller\AbstractActionController
 {
     private $table;
+    private $tableAlumno;
 
-    public function __construct($table)
+    public function __construct($table, $tableAlumno)
     {
         $this->table = $table;
+        $this->tableAlumno = $tableAlumno;
     }
 
    public function indexAction(): ViewModel
    {
         $carreras = $this->table->fetchAll();
         return new ViewModel(['carreras' => $carreras]);
+   }
+
+   public function reporteAction(): ViewModel
+   {
+        $id = (int) $this->params()->fromRoute('id', 0);
+
+        $carrera = $this->table->getCarrera($id);
+
+        $alumnos = $this->tableAlumno->getFromCarrera($id);
+
+        return new ViewModel(['carrera' => $carrera, 'alumnos' => $alumnos]);
    }
 
     public function createAction()
